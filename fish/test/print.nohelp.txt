@@ -1,0 +1,22 @@
+# example fish shell completion
+
+function __fish_example_no_subcommand --description 'Test if there has been any subcommand yet'
+    for i in (commandline -opc)
+        if contains -- $i fish-completion print install uninstall
+            return 1
+        end
+    end
+    return 0
+end
+
+complete -r -c example -n '__fish_example_no_subcommand' -a 'fish-completion' -d 'managing fish completions'
+complete -r -c example -n '__fish_seen_subcommand_from fish-completion' -a 'print' -d 'print fish completions'
+complete -c example -n '__fish_seen_subcommand_from print' -f -l no-help -s n -d 'supress the help command and help flags'
+complete -c example -n '__fish_seen_subcommand_from print' -f -l prog -s p -r -d '`name` for completion filename'
+complete -r -c example -n '__fish_seen_subcommand_from fish-completion' -a 'install' -d 'install fish completions script'
+complete -c example -n '__fish_seen_subcommand_from install' -f -l no-help -s n -d 'supress the help command and help flags'
+complete -c example -n '__fish_seen_subcommand_from install' -f -l dir -s d -r -d 'fish config `dir`'
+complete -c example -n '__fish_seen_subcommand_from install' -f -l prog -s p -r -d '`name` for completion filename'
+complete -r -c example -n '__fish_seen_subcommand_from fish-completion' -a 'uninstall' -d 'uninstall fish completions script'
+complete -c example -n '__fish_seen_subcommand_from uninstall' -f -l dir -s d -r -d 'fish config `dir`'
+complete -c example -n '__fish_seen_subcommand_from uninstall' -f -l prog -s p -r -d '`name` for completion filename'
