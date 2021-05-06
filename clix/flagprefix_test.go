@@ -29,3 +29,11 @@ func TestFlagPrefix(t *testing.T) {
 		}
 	})
 }
+
+func TestFlagPrefix_String(t *testing.T) {
+	want := "prefix"
+	got := clix.FlagPrefix(want).String()
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("-want +got\n%s", diff)
+	}
+}

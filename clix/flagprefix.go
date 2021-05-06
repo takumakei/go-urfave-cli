@@ -7,6 +7,11 @@ import (
 // FlagPrefix represents the prefix of flags.
 type FlagPrefix string
 
+// String returns string(fp).
+func (fp FlagPrefix) String() string {
+	return string(fp)
+}
+
 // EnvVars returns []string{FlagPrefix + s}.
 func (fp FlagPrefix) EnvVars(s string) []string {
 	return []string{string(fp) + s}
