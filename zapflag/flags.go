@@ -211,6 +211,15 @@ func (f *Flags) InitGlobal(c *cli.Context) error {
 	return nil
 }
 
+// SyncGlobal calls zap.L().Sync().
+//
+// This is intended to be used as cli.AfterFunc.
+// see https://pkg.go.dev/github.com/urfave/cli/v2#AfterFunc
+func SyncGlobal(c *cli.Context) error {
+	zap.L().Sync()
+	return nil
+}
+
 // Init returns f.FlagSet.Init(c).
 //
 // This is intended to be used as cli.BeforeFunc.

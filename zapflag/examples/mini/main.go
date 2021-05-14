@@ -16,10 +16,7 @@ func main() {
 	app := cli.NewApp()
 	app.Flags = zf.Flags()
 	app.Before = zf.InitGlobal
-	app.After = func(c *cli.Context) error {
-		zap.L().Sync()
-		return nil
-	}
+	app.After = zapflag.SyncGlobal
 	app.Action = func(c *cli.Context) error {
 		zap.L().Info("hello world")
 		return nil
