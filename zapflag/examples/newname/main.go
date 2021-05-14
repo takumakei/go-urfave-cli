@@ -20,7 +20,7 @@ func main() {
 
 	app := cli.NewApp()
 	app.Flags = clix.Flags(zfGlobal.Flags(), zfSecond.Flags())
-	app.Before = clix.Chain(zfGlobal.InitGlobal, zfSecond.InitInto(&second))
+	app.Before = clix.Chain(zfGlobal.InitGlobal, zfSecond.InitVar(&second))
 	app.After = clix.Chain(
 		zapflag.Sync(&second, zapflag.IgnoreError),
 		zapflag.SyncGlobal(zapflag.IgnoreError),

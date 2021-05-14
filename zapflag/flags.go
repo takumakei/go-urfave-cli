@@ -217,10 +217,10 @@ func (f *Flags) Init(c *cli.Context) error {
 	return f.FlagSet.Init(c)
 }
 
-// InitInto returns the function that can be used as cli.BeforeFunc.
+// InitVar returns the function that can be used as cli.BeforeFunc.
 // The function calls f.Init and f.Logger to create a new logger.
 // Finaly new logger is named with f.Name, saved into p.
-func (f *Flags) InitInto(p **zap.Logger) func(*cli.Context) error {
+func (f *Flags) InitVar(p **zap.Logger) func(*cli.Context) error {
 	return func(c *cli.Context) error {
 		if err := f.Init(c); err != nil {
 			return err
