@@ -34,125 +34,127 @@ func New(prefix clix.FlagPrefix) *Flags {
 
 // NewName returns a *Flags.
 func NewName(name string, prefix clix.FlagPrefix) *Flags {
-	logDevelopment := newNames(name, "log-development", prefix)
-	logLevel := newNames(name, "log-level", prefix)
-	logWithCaller := newNames(name, "log-with-caller", prefix)
-	logStackTrace := newNames(name, "log-stack-trace", prefix)
-	logStackTraceLv := newNames(name, "log-stack-trace-level", prefix)
-	logDateFormat := newNames(name, "log-date-format", prefix)
-	logFields := newNames(name, "log-field", prefix)
-	logPaths := newNames(name, "log-path", prefix)
-	logErrPaths := newNames(name, "log-err-path", prefix)
-	logSamplingInitial := newNames(name, "log-sampling-initial", prefix)
-	logSamplingThereafter := newNamesAlias(name, "log-sampling-thereafter", "lsth", prefix)
+	var (
+		logDevelopment        = clix.NewFlagName(prefix, name, "log-development")
+		logLevel              = clix.NewFlagName(prefix, name, "log-level")
+		logWithCaller         = clix.NewFlagName(prefix, name, "log-with-caller")
+		logStackTrace         = clix.NewFlagName(prefix, name, "log-stack-trace")
+		logStackTraceLv       = clix.NewFlagName(prefix, name, "log-stack-trace-level")
+		logDateFormat         = clix.NewFlagName(prefix, name, "log-date-format")
+		logFields             = clix.NewFlagName(prefix, name, "log-field")
+		logPaths              = clix.NewFlagName(prefix, name, "log-path")
+		logErrPaths           = clix.NewFlagName(prefix, name, "log-err-path")
+		logSamplingInitial    = clix.NewFlagName(prefix, name, "log-sampling-initial")
+		logSamplingThereafter = clix.NewFlagNameAlias(prefix, name, "log-sampling-thereafter", "lsth")
+	)
 
 	return &Flags{
 		Name: name,
 
 		FlagDevelopment: &cli.BoolFlag{
-			Name:        logDevelopment.name,
-			Aliases:     logDevelopment.aliases,
+			Name:        logDevelopment.Name,
+			Aliases:     logDevelopment.Aliases,
 			Usage:       "enable development mode",
-			EnvVars:     logDevelopment.envVars,
-			FilePath:    logDevelopment.filePath,
+			EnvVars:     logDevelopment.EnvVars,
+			FilePath:    logDevelopment.FilePath,
 			Destination: new(bool),
 		},
 
 		FlagLevel: &cli.GenericFlag{
-			Name:        logLevel.name,
-			Aliases:     logLevel.aliases,
+			Name:        logLevel.Name,
+			Aliases:     logLevel.Aliases,
 			Usage:       "`level` [debug|info|warn|error|dpanic|panic|fatal]",
-			EnvVars:     logLevel.envVars,
-			FilePath:    logLevel.filePath,
+			EnvVars:     logLevel.EnvVars,
+			FilePath:    logLevel.FilePath,
 			Value:       new(zapcore.Level),
 			DefaultText: "auto",
 		},
 
 		FlagWithCaller: &cli.BoolFlag{
-			Name:        logWithCaller.name,
-			Aliases:     logWithCaller.aliases,
+			Name:        logWithCaller.Name,
+			Aliases:     logWithCaller.Aliases,
 			Usage:       "whether including caller",
-			EnvVars:     logWithCaller.envVars,
-			FilePath:    logWithCaller.filePath,
+			EnvVars:     logWithCaller.EnvVars,
+			FilePath:    logWithCaller.FilePath,
 			DefaultText: "auto",
 			Destination: new(bool),
 		},
 
 		FlagStackTrace: &cli.BoolFlag{
-			Name:        logStackTrace.name,
-			Aliases:     logStackTrace.aliases,
+			Name:        logStackTrace.Name,
+			Aliases:     logStackTrace.Aliases,
 			Usage:       "whether including stack trace",
-			EnvVars:     logStackTrace.envVars,
-			FilePath:    logStackTrace.filePath,
+			EnvVars:     logStackTrace.EnvVars,
+			FilePath:    logStackTrace.FilePath,
 			DefaultText: "auto",
 			Destination: new(bool),
 		},
 
 		FlagStackTraceLv: &cli.GenericFlag{
-			Name:        logStackTraceLv.name,
-			Aliases:     logStackTraceLv.aliases,
+			Name:        logStackTraceLv.Name,
+			Aliases:     logStackTraceLv.Aliases,
 			Usage:       "`level` [debug|info|warn|error|dpanic|panic|fatal]",
-			EnvVars:     logStackTraceLv.envVars,
-			FilePath:    logStackTraceLv.filePath,
+			EnvVars:     logStackTraceLv.EnvVars,
+			FilePath:    logStackTraceLv.FilePath,
 			Value:       new(zapcore.Level),
 			DefaultText: "auto",
 		},
 
 		FlagDateFormat: &cli.StringFlag{
-			Name:        logDateFormat.name,
-			Aliases:     logDateFormat.aliases,
+			Name:        logDateFormat.Name,
+			Aliases:     logDateFormat.Aliases,
 			Usage:       "see https://pkg.go.dev/time#Time.Format",
-			EnvVars:     logDateFormat.envVars,
-			FilePath:    logDateFormat.filePath,
+			EnvVars:     logDateFormat.EnvVars,
+			FilePath:    logDateFormat.FilePath,
 			DefaultText: "auto",
 			Destination: new(string),
 		},
 
 		FlagFields: &cli.StringSliceFlag{
-			Name:        logFields.name,
-			Aliases:     logFields.aliases,
+			Name:        logFields.Name,
+			Aliases:     logFields.Aliases,
 			Usage:       "`key=value` added to the logger",
-			EnvVars:     logFields.envVars,
-			FilePath:    logFields.filePath,
+			EnvVars:     logFields.EnvVars,
+			FilePath:    logFields.FilePath,
 			Destination: new(cli.StringSlice),
 		},
 
 		FlagPaths: &cli.StringSliceFlag{
-			Name:        logPaths.name,
-			Aliases:     logPaths.aliases,
+			Name:        logPaths.Name,
+			Aliases:     logPaths.Aliases,
 			Usage:       "output path (default: auto)",
-			EnvVars:     logPaths.envVars,
-			FilePath:    logPaths.filePath,
+			EnvVars:     logPaths.EnvVars,
+			FilePath:    logPaths.FilePath,
 			Destination: new(cli.StringSlice),
 			//DefaultText: "auto", // FIXME: cli@v2.3.0 does not print DefaultText.
 		},
 
 		FlagErrPaths: &cli.StringSliceFlag{
-			Name:        logErrPaths.name,
-			Aliases:     logErrPaths.aliases,
+			Name:        logErrPaths.Name,
+			Aliases:     logErrPaths.Aliases,
 			Usage:       "error output path (default: auto)",
-			EnvVars:     logErrPaths.envVars,
-			FilePath:    logErrPaths.filePath,
+			EnvVars:     logErrPaths.EnvVars,
+			FilePath:    logErrPaths.FilePath,
 			Destination: new(cli.StringSlice),
 			//DefaultText: "auto", // FIXME: cli@v2.3.0 does not print DefaultText.
 		},
 
 		FlagSamplingInitial: &cli.IntFlag{
-			Name:        logSamplingInitial.name,
-			Aliases:     logSamplingInitial.aliases,
+			Name:        logSamplingInitial.Name,
+			Aliases:     logSamplingInitial.Aliases,
 			Usage:       "sampling initial count `N`",
-			EnvVars:     logSamplingInitial.envVars,
-			FilePath:    logSamplingInitial.filePath,
+			EnvVars:     logSamplingInitial.EnvVars,
+			FilePath:    logSamplingInitial.FilePath,
 			DefaultText: "auto",
 			Destination: new(int),
 		},
 
 		FlagSamplingThereafter: &cli.IntFlag{
-			Name:        logSamplingThereafter.name,
-			Aliases:     logSamplingThereafter.aliases,
+			Name:        logSamplingThereafter.Name,
+			Aliases:     logSamplingThereafter.Aliases,
 			Usage:       "sampling thereafter count `N`",
-			EnvVars:     logSamplingThereafter.envVars,
-			FilePath:    logSamplingThereafter.filePath,
+			EnvVars:     logSamplingThereafter.EnvVars,
+			FilePath:    logSamplingThereafter.FilePath,
 			DefaultText: "auto",
 			Destination: new(int),
 		},
