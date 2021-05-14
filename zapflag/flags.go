@@ -353,8 +353,18 @@ func (f *Flags) LookupSamplingThereafter() (int, bool) {
 	return f.SamplingThereafter(), f.FlagSet.IsSet(f.FlagSamplingThereafter)
 }
 
-// Logger returns f.Config().Build(f.Options()...).
+// Logger calls f.RootLogger() and returns the logger named with f.Name if
+// f.Name is not empty, otherwise returns the result of f.RootLogger().
 func (f *Flags) Logger() (*zap.Logger, error) {
+	logger, err := f.RootLogger()
+	if len(f.Name) > 0 && logger != nil {
+		logger = logger.Named(f.Name)
+	}
+	return logger, err
+}
+
+// RootLogger returns f.Config().Build(f.Options()...).
+func (f *Flags) RootLogger() (*zap.Logger, error) {
 	return f.Config().Build(f.Options()...)
 }
 
