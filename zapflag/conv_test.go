@@ -25,7 +25,7 @@ func TestParseZapFields(t *testing.T) {
 		zf := ParseZapFields(c.In)
 		log, s := newLogger()
 		log.Info("info", zf...)
-		log.Sync()
+		_ = log.Sync()
 		got := strings.TrimRightFunc(s.String(), unicode.IsSpace)
 		if diff := cmp.Diff(c.Want, got); diff != "" {
 			t.Errorf("%d %q\n-want +got\n%s", i, strings.Join(c.In, ","), diff)

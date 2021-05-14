@@ -13,29 +13,21 @@ import (
 func main() {
 	fp := clix.FlagPrefix("NEWNAME_")
 
-	zf := zapflag.New(fp)
+	zfGlobal := zapflag.New(fp)
+	zfSecond := zapflag.NewName("second", fp)
 
-	zf2 := zapflag.NewName("zap", fp)
-	var log2 *zap.Logger
-	initLog2 := func(c *cli.Context) error {
-		v, err := zf2.Logger()
-		if err == nil {
-			log2 = v.With(zap.String("logger", "zap"))
-		}
-		return err
-	}
+	var second *zap.Logger
 
 	app := cli.NewApp()
-	app.Flags = clix.Flags(zf.Flags(), zf2.Flags())
-	app.Before = clix.Chain(zf.InitGlobal, zf2.Init, initLog2)
-	app.After = func(c *cli.Context) error {
-		zap.L().Sync()
-		log2.Sync()
-		return nil
-	}
+	app.Flags = clix.Flags(zfGlobal.Flags(), zfSecond.Flags())
+	app.Before = clix.Chain(zfGlobal.InitGlobal, zfSecond.InitInto(&second))
+	app.After = clix.Chain(
+		zapflag.Sync(&second, zapflag.IgnoreError),
+		zapflag.SyncGlobal(zapflag.IgnoreError),
+	)
 	app.Action = func(c *cli.Context) error {
 		zap.L().Info("hello world")
-		log2.Info("hello world")
+		second.Info("hello world")
 		return nil
 	}
 	exit.Exit(app.Run(os.Args))

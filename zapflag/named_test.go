@@ -50,7 +50,7 @@ func ExampleNamed() {
 			},
 		},
 	}
-	app.Run([]string{"example", "hello", "world", "melon"})
+	_ = app.Run([]string{"example", "hello", "world", "melon"})
 	// output:
 	// {"level":"info","logger":"example","msg":"named logger for root"}
 	// {"level":"info","logger":"example.hello","msg":"named logger for hello"}

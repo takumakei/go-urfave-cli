@@ -38,7 +38,7 @@ func main() {
 	app := cli.NewApp()
 	app.Flags = clix.Flags(flagCount, flagWorld, zf.Flags())
 	app.Before = zf.InitGlobal
-	app.After = zapflag.SyncGlobal
+	app.After = zapflag.SyncGlobal(zapflag.IgnoreError)
 	app.Action = func(c *cli.Context) error {
 		count := *flagCount.Destination
 		world := *flagWorld.Destination

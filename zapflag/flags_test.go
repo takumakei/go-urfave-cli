@@ -65,7 +65,7 @@ func sampling(t *testing.T, repeat int, args ...string) string {
 
 	s := new(strings.Builder)
 	sinkname := "s" + strconv.FormatInt(time.Now().UnixNano(), 16)
-	zap.RegisterSink(sinkname, func(*url.URL) (zap.Sink, error) {
+	_ = zap.RegisterSink(sinkname, func(*url.URL) (zap.Sink, error) {
 		return addSyncClose(s), nil
 	})
 	os.Setenv("TESTING_LOG_PATH", sinkname+"://")
@@ -82,13 +82,13 @@ func sampling(t *testing.T, repeat int, args ...string) string {
 	app.Flags = zf.Flags()
 	app.Before = zf.InitGlobal
 	app.Action = func(c *cli.Context) error {
-		defer zap.L().Sync()
+		defer anyway(zap.L().Sync)
 		for i := 0; i < repeat; i++ {
 			zap.L().Info("hello", zap.Int("i", i))
 		}
 		return nil
 	}
-	app.Run(append([]string{"testing"}, args...))
+	_ = app.Run(append([]string{"testing"}, args...))
 
 	return s.String()
 }
@@ -102,3 +102,7 @@ type nopWriteCloser struct {
 }
 
 func (nopWriteCloser) Close() error { return nil }
+
+func anyway(fn func() error) {
+	_ = fn()
+}

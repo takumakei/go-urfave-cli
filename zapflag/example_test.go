@@ -16,14 +16,14 @@ func Example() {
 	app.Flags = zf.Flags()
 	app.Before = zf.InitGlobal
 	app.After = func(c *cli.Context) error {
-		zap.L().Sync()
+		_ = zap.L().Sync()
 		return nil
 	}
 	app.Action = func(c *cli.Context) error {
 		zap.L().Info("hello world")
 		return nil
 	}
-	app.Run([]string{"example", "--help"})
+	_ = app.Run([]string{"example", "--help"})
 	// Output:
 	// NAME:
 	//    example - A new cli application

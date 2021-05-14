@@ -203,21 +203,10 @@ func (f *Flags) InitGlobal(c *cli.Context) error {
 	}
 
 	logger, err := f.Logger()
-	if err != nil {
-		return err
+	if err == nil {
+		zap.ReplaceGlobals(logger)
 	}
-
-	zap.ReplaceGlobals(logger)
-	return nil
-}
-
-// SyncGlobal calls zap.L().Sync().
-//
-// This is intended to be used as cli.AfterFunc.
-// see https://pkg.go.dev/github.com/urfave/cli/v2#AfterFunc
-func SyncGlobal(c *cli.Context) error {
-	zap.L().Sync()
-	return nil
+	return err
 }
 
 // Init returns f.FlagSet.Init(c).

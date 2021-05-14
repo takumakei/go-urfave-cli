@@ -29,7 +29,7 @@ func main() {
 	app := cli.NewApp()
 	app.Flags = clix.Flags(flagDo, zf.Flags())
 	app.Before = clix.Chain(flagSet.Init, zf.InitGlobal)
-	app.After = zapflag.SyncGlobal
+	app.After = zapflag.SyncGlobal(zapflag.IgnoreError)
 	app.Action = func(c *cli.Context) error {
 		zap.L().Debug("debug message")
 		zap.L().Info("info message")
