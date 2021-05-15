@@ -18,7 +18,7 @@ func ExampleNamed() {
 		return nil
 	}
 	app.Commands = []*cli.Command{
-		&cli.Command{
+		{
 			Name:   "hello",
 			Action: func(c *cli.Context) error { return nil },
 			Before: func(c *cli.Context) error {
@@ -27,7 +27,7 @@ func ExampleNamed() {
 				return nil
 			},
 			Subcommands: []*cli.Command{
-				&cli.Command{
+				{
 					Name:   "world",
 					Action: func(c *cli.Context) error { return nil },
 					Before: func(c *cli.Context) error {
@@ -36,7 +36,7 @@ func ExampleNamed() {
 						return nil
 					},
 					Subcommands: []*cli.Command{
-						&cli.Command{
+						{
 							Name:   "melon",
 							Action: func(c *cli.Context) error { return nil },
 							Before: func(c *cli.Context) error {
