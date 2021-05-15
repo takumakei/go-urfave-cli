@@ -7,6 +7,6 @@ require (
 	github.com/google/go-cmp v0.5.5
 	github.com/google/renameio v1.0.1
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/takumakei/go-exit v0.0.0-20210429095029-8c3e71abac7f
+	github.com/takumakei/go-exit v0.0.0-20210508215554-107b1768a879
 	github.com/urfave/cli/v2 v2.3.0
 )
