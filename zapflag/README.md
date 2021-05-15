@@ -1,5 +1,7 @@
-Package zapflag implements functions to use go.uber.org/zap with github.com/urfave/cli
+Package zapflag implements functions to use go.uber.org/zap with github.com/urfave/cli/v2
 ======================================================================
+
+[![GoDoc](https://pkg.go.dev/badge/github.com/takumakei/go-urfave-cli/zapflag)](https://godoc.org/github.com/takumakei/go-urfave-cli/zapflag)
 
 ### Example
 

@@ -1,2 +1,2 @@
-Companion packages for github.com/urfave/cli
+Companion packages for github.com/urfave/cli/v2
 ======================================================================

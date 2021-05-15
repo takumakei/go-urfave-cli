@@ -1,5 +1,7 @@
-Package fish implements EnableishCompletionCommand for github.com/urfave/cli
+Package fish implements EnableishCompletionCommand for github.com/urfave/cli/v2
 ======================================================================
+
+[![GoDoc](https://pkg.go.dev/badge/github.com/takumakei/go-urfave-cli/fish)](https://godoc.org/github.com/takumakei/go-urfave-cli/fish)
 
 The command `fish-completion` is out of the box.
 
