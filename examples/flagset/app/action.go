@@ -10,7 +10,7 @@ import (
 
 func Action(c *cli.Context) error {
 	if c.Args().Present() {
-		cli.ShowAppHelp(c)
+		_ = cli.ShowAppHelp(c)
 		return exit.Status(1)
 	}
 

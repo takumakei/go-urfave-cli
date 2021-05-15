@@ -13,7 +13,8 @@ func init() {
 	App.Usage = "example cli application"
 	App.ArgsUsage = " "
 	App.Flags = flagapp.Flags
-	App.Before = flagapp.FlagSet.Init
+	App.Before = flagapp.Before
+	App.After = flagapp.After
 	App.Action = Action
 	App.Commands = []*cli.Command{
 		split.Command,

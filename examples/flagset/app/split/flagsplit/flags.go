@@ -1,6 +1,7 @@
 package flagsplit
 
 import (
+	"github.com/takumakei/go-delint"
 	"github.com/takumakei/go-urfave-cli/clix"
 	"github.com/urfave/cli/v2"
 )
@@ -8,34 +9,60 @@ import (
 var (
 	FlagPrefix = clix.FlagPrefix("FLAGSET_SPLIT_")
 
+	Flags []cli.Flag
+
+	FlagHorizontal *cli.IntFlag
+
+	FlagVertical *cli.IntFlag
+
+	FlagSet = clix.NewFlagSet()
+
+	Direction *clix.ExclusiveFlags
+)
+
+func init() {
+	var (
+		nameHorizaontal = clix.NewFlagNameAlias(FlagPrefix, "", "horizontal", "H")
+		nameVertical    = clix.NewFlagNameAlias(FlagPrefix, "", "vertical", "V")
+	)
+
+	FlagHorizontal = &cli.IntFlag{
+		Name:        nameHorizaontal.Name,
+		Aliases:     nameHorizaontal.Aliases,
+		Usage:       "horizontal `width`",
+		EnvVars:     nameHorizaontal.EnvVars,
+		FilePath:    nameHorizaontal.FilePath,
+		Destination: new(int),
+	}
+
+	FlagVertical = &cli.IntFlag{
+		Name:        nameVertical.Name,
+		Aliases:     nameVertical.Aliases,
+		Usage:       "vertical `height`",
+		EnvVars:     nameVertical.EnvVars,
+		FilePath:    nameVertical.FilePath,
+		Destination: new(int),
+	}
+
 	Flags = []cli.Flag{
 		FlagHorizontal,
 		FlagVertical,
 	}
 
-	FlagHorizontal = &cli.IntFlag{
-		Name:        "horizontal",
-		Aliases:     []string{"H"},
-		EnvVars:     FlagPrefix.EnvVars("HORIZONTAL"),
-		FilePath:    FlagPrefix.FilePath("HORIZONTAL"),
-		Destination: new(int),
-	}
-
-	FlagVertical = &cli.IntFlag{
-		Name:        "vertical",
-		Aliases:     []string{"V"},
-		EnvVars:     FlagPrefix.EnvVars("VERTICAL"),
-		FilePath:    FlagPrefix.FilePath("VERTICAL"),
-		Destination: new(int),
-	}
-
-	FlagSet = clix.NewFlagSet()
-
 	Direction = FlagSet.NewExclusiveFlags(
 		FlagHorizontal,
 		FlagVertical,
 	)
-)
+}
+
+func Before(c *cli.Context) error {
+	delint.Must(FlagSet.Init(c))
+	return nil
+}
+
+func After(c *cli.Context) error {
+	return nil
+}
 
 func Horizontal() int {
 	return *FlagHorizontal.Destination

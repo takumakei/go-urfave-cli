@@ -12,7 +12,7 @@ import (
 
 func Action(c *cli.Context) error {
 	if c.Args().Present() {
-		cli.ShowSubcommandHelp(c)
+		_ = cli.ShowSubcommandHelp(c)
 		return exit.Status(1)
 	}
 

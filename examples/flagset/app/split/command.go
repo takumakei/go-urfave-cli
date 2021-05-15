@@ -10,6 +10,7 @@ var Command = &cli.Command{
 	Usage:     "split window",
 	ArgsUsage: " ",
 	Flags:     flagsplit.Flags,
-	Before:    flagsplit.FlagSet.Init,
+	Before:    flagsplit.Before,
+	After:     flagsplit.After,
 	Action:    Action,
 }
