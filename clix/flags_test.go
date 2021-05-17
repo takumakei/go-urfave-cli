@@ -16,7 +16,7 @@ func TestFlags(t *testing.T) {
 	)
 
 	want := []cli.Flag{a, b, c}
-	got := clix.Flags(a, []cli.Flag{b, c})
+	got := clix.Flags(a, nil, []cli.Flag{b, nil, c})
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Fatalf("-want +got\n%s", diff)
 	}
