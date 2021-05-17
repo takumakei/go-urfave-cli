@@ -28,3 +28,11 @@ func Flags(flags ...interface{}) []cli.Flag {
 	}
 	return list
 }
+
+// FlagIf returns flag if cond is true, otherwise returns nil.
+func FlagIf(cond bool, flag ...cli.Flag) []cli.Flag {
+	if cond {
+		return flag
+	}
+	return nil
+}
