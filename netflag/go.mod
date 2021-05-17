@@ -8,7 +8,7 @@ require (
 	github.com/takumakei/go-delint v0.0.0-20210515134037-9bbafd7915e7
 	github.com/takumakei/go-exit v0.0.0-20210515134037-47cd478cc20b
 	github.com/takumakei/go-stringx v0.0.0-20210515134037-56900ce87249
-	github.com/takumakei/go-urfave-cli/clix v0.0.0-20210517030139-bfc6441ab5ae
+	github.com/takumakei/go-urfave-cli/clix v0.0.0-20210517040138-20b551f18cb4
 	github.com/takumakei/go-urfave-cli/fish v0.0.0-20210515134036-5c7785582e70
 	github.com/urfave/cli/v2 v2.3.0
 )
