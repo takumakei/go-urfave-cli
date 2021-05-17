@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/takumakei/go-stringx"
-	"github.com/urfave/cli/v2"
 )
 
 // config represents a state of options.
@@ -144,11 +143,4 @@ func EnableGenCert(c *config) {
 // DisableGenCert is the option not to use FlagTLSGenCert.
 func DisableGenCert(c *config) {
 	c.genCertDisabled = true
-}
-
-func useFlagIf(v bool, flag cli.Flag) []cli.Flag {
-	if v {
-		return []cli.Flag{flag}
-	}
-	return nil
 }

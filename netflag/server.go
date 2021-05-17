@@ -206,11 +206,11 @@ func (f *Server) Before(c *cli.Context) error {
 //     f.FlagTLSMaxVer
 func (f *Server) Flags() []cli.Flag {
 	return clix.Flags(
-		useFlagIf(!f.PredeterminedFlagNetwork, f.FlagNetwork),
+		clix.FlagIf(!f.PredeterminedFlagNetwork, f.FlagNetwork),
 		f.FlagAddress,
 		f.FlagTLSCerts,
 		f.FlagTLSKeys,
-		useFlagIf(!f.DisableFlagTLSGenCert, f.FlagTLSGenCert),
+		clix.FlagIf(!f.DisableFlagTLSGenCert, f.FlagTLSGenCert),
 		f.FlagTLSCAs,
 		f.FlagTLSMinVer,
 		f.FlagTLSMaxVer,
