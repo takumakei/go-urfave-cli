@@ -20,6 +20,9 @@ type Client struct {
 	// PredeterminedFlagNetwork is true if the value of FlagNetwork is predetermined by the option.
 	PredeterminedFlagNetwork bool
 
+	// DisableTLS is true if TLS is disabled.
+	DisableTLS bool
+
 	// FlagNetwork is the network to connect.
 	FlagNetwork *cli.StringFlag
 
@@ -78,6 +81,8 @@ func NewClientName(prefix clix.FlagPrefix, name string, opts ...Option) *Client 
 		Name: name,
 
 		PredeterminedFlagNetwork: cfg.networkPredetermined(),
+
+		DisableTLS: cfg.tlsDisabled,
 
 		FlagNetwork: &cli.StringFlag{
 			Name:        nameNetwork.Name,
@@ -181,8 +186,13 @@ func (f *Client) Before(c *cli.Context) error {
 
 // Flags returns []cli.Flag.
 //
-//     f.FlagNetwork  (conditional)
+// It includes the following.
+//
+//     f.FlagNetwork  (if not predetermined)
 //     f.FlagAddress
+//
+// It also includes the following if TLS is enabled.
+//
 //     f.FlagTLSCerts
 //     f.FlagTLSKeys
 //     f.FlagTLSCAs
@@ -194,13 +204,15 @@ func (f *Client) Flags() []cli.Flag {
 	return clix.Flags(
 		clix.FlagIf(!f.PredeterminedFlagNetwork, f.FlagNetwork),
 		f.FlagAddress,
-		f.FlagTLSCerts,
-		f.FlagTLSKeys,
-		f.FlagTLSCAs,
-		f.FlagTLSServerName,
-		f.FlagTLSSkipVerify,
-		f.FlagTLSMinVer,
-		f.FlagTLSMaxVer,
+		clix.FlagIf(!f.DisableTLS, clix.Flags(
+			f.FlagTLSCerts,
+			f.FlagTLSKeys,
+			f.FlagTLSCAs,
+			f.FlagTLSServerName,
+			f.FlagTLSSkipVerify,
+			f.FlagTLSMinVer,
+			f.FlagTLSMaxVer,
+		)...),
 	)
 }
 

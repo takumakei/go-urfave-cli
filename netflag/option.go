@@ -26,6 +26,7 @@ type config struct {
 	tlsMaxVersion uint16
 
 	genCertDisabled bool
+	tlsDisabled     bool
 }
 
 func newConfig(opts ...Option) config {
@@ -143,4 +144,22 @@ func EnableGenCert(c *config) {
 // DisableGenCert is the option not to use FlagTLSGenCert.
 func DisableGenCert(c *config) {
 	c.genCertDisabled = true
+}
+
+// TLS returns the option whether using TLS.
+func TLS(v bool) Option {
+	if v {
+		return EnableTLS
+	}
+	return DisableTLS
+}
+
+// EnableTLS is the option to use flags related to TLS.
+func EnableTLS(c *config) {
+	c.tlsDisabled = false
+}
+
+// DisableTLS is the option not use flags related to TLS.
+func DisableTLS(c *config) {
+	c.tlsDisabled = true
 }

@@ -22,6 +22,9 @@ type Server struct {
 	// PredeterminedFlagNetwork is true if the value of FlagNetwork is predetermined by the option.
 	PredeterminedFlagNetwork bool
 
+	// DisableTLS is true if TLS is disabled.
+	DisableTLS bool
+
 	// DisableFlagTLSGenCert is true if FlagTLSGenCert would be included in the result of Flags().
 	DisableFlagTLSGenCert bool
 
@@ -111,6 +114,8 @@ func NewServerName(prefix clix.FlagPrefix, name string, opts ...Option) *Server 
 
 		PredeterminedFlagNetwork: cfg.networkPredetermined(),
 
+		DisableTLS: cfg.tlsDisabled,
+
 		DisableFlagTLSGenCert: cfg.genCertDisabled,
 
 		FlagNetwork: &cli.StringFlag{
@@ -196,11 +201,16 @@ func (f *Server) Before(c *cli.Context) error {
 
 // Flags returns []cli.Flag.
 //
-//     f.FlagNetwork  (conditional)
+// It includes the following.
+//
+//     f.FlagNetwork  (if not predetermined)
 //     f.FlagAddress
+//
+// It also includes the following if TLS is enabled.
+//
 //     f.FlagTLSCerts
 //     f.FlagTLSKeys
-//     f.FlagTLSGenCert  (conditional)
+//     f.FlagTLSGenCert  (if not disabled)
 //     f.FlagTLSCAs
 //     f.FlagTLSMinVer
 //     f.FlagTLSMaxVer
@@ -208,12 +218,14 @@ func (f *Server) Flags() []cli.Flag {
 	return clix.Flags(
 		clix.FlagIf(!f.PredeterminedFlagNetwork, f.FlagNetwork),
 		f.FlagAddress,
-		f.FlagTLSCerts,
-		f.FlagTLSKeys,
-		clix.FlagIf(!f.DisableFlagTLSGenCert, f.FlagTLSGenCert),
-		f.FlagTLSCAs,
-		f.FlagTLSMinVer,
-		f.FlagTLSMaxVer,
+		clix.FlagIf(!f.DisableTLS, clix.Flags(
+			f.FlagTLSCerts,
+			f.FlagTLSKeys,
+			clix.FlagIf(!f.DisableFlagTLSGenCert, f.FlagTLSGenCert),
+			f.FlagTLSCAs,
+			f.FlagTLSMinVer,
+			f.FlagTLSMaxVer,
+		)...),
 	)
 }
 

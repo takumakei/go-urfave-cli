@@ -23,8 +23,8 @@ github.com/takumakei/go-exit v0.0.0-20210515134037-47cd478cc20b h1:uwh7mABe3NgLH
 github.com/takumakei/go-exit v0.0.0-20210515134037-47cd478cc20b/go.mod h1:lTl72rFM2ODzgRzHnQHll50ZB0qtS9notmuSImb0hxc=
 github.com/takumakei/go-stringx v0.0.0-20210515134037-56900ce87249 h1:Y6VIhoz1ZsT6WqieE3myxBqnXW8Eedur/VCnjGbu+dw=
 github.com/takumakei/go-stringx v0.0.0-20210515134037-56900ce87249/go.mod h1:b8mBiPdgo2nlfDzEixKeb3drhsp9AUkTkhJJStyha6E=
-github.com/takumakei/go-urfave-cli/clix v0.0.0-20210517040138-20b551f18cb4 h1://9BXrQsZOCPhG1QiNxZ0jvQMGj8ZehI8GnjNHv2kJA=
-github.com/takumakei/go-urfave-cli/clix v0.0.0-20210517040138-20b551f18cb4/go.mod h1:rYI74HHXRukdRkSdEQZ+hsRCiYscknQHrYGBfSFI2rY=
+github.com/takumakei/go-urfave-cli/clix v0.0.0-20210517041205-ce5cefab2512 h1:JUQBsDwA+sYP4bit1GHebgoGMBPgYW56Ti3K6EZQLDE=
+github.com/takumakei/go-urfave-cli/clix v0.0.0-20210517041205-ce5cefab2512/go.mod h1:rYI74HHXRukdRkSdEQZ+hsRCiYscknQHrYGBfSFI2rY=
 github.com/takumakei/go-urfave-cli/fish v0.0.0-20210515134036-5c7785582e70 h1:GZDtETszbY2X+laD4t5AnxSsFA/82wn/Eg/zFnOlJ00=
 github.com/takumakei/go-urfave-cli/fish v0.0.0-20210515134036-5c7785582e70/go.mod h1:cqMU9O/G5MnYB3cx0kXqiCL3JeWruNPCsQVFdKzL8t8=
 github.com/urfave/cli/v2 v2.3.0 h1:qph92Y649prgesehzOrQjdWyxFOp/QVM+6imKHad91M=
