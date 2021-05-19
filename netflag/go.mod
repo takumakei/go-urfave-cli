@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/google/go-cmp v0.5.5
-	github.com/takumakei/go-cert4now v0.0.0-20210515134037-06e7d8abd6d3
+	github.com/takumakei/go-cert4now v0.0.0-20210517105643-76d4e400f66b
 	github.com/takumakei/go-delint v0.0.0-20210515134037-9bbafd7915e7
 	github.com/takumakei/go-exit v0.0.0-20210515134037-47cd478cc20b
 	github.com/takumakei/go-stringx v0.0.0-20210515134037-56900ce87249

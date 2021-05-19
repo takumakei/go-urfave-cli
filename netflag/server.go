@@ -291,18 +291,12 @@ func (f *Server) UseTLS() bool {
 func (f *Server) TLSConfig() (*tls.Config, error) {
 	var certs []tls.Certificate
 	if f.TLSGenCert() {
-		names := make([]string, 0, 2)
-		if v := f.Name; len(v) > 0 {
-			names = append(names, v)
-		}
-		if v, err := os.Hostname(); err == nil && len(v) > 0 {
-			names = append(names, v)
-		}
+		hostname, _ := os.Hostname()
 		cert, err := cert4now.Generate(
 			cert4now.CommonName(f.Name),
 			cert4now.ECDSA(elliptic.P384()),
 			cert4now.AddDate(100, 0, 0),
-			cert4now.DNSNames(names...),
+			cert4now.DNSNames(f.Name, hostname),
 		)
 		if err != nil {
 			return nil, err
