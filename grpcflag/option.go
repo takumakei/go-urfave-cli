@@ -41,3 +41,9 @@ func TLSMaxVersion(v uint16) Option {
 		c.TLSMaxVersion = v
 	}
 }
+
+func Reflection(v bool) Option {
+	return func(c *Config) {
+		c.Reflection = v
+	}
+}

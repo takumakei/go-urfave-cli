@@ -15,6 +15,7 @@ import (
 	"github.com/urfave/cli/v2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/reflection"
 )
 
 type Server struct {
@@ -24,6 +25,8 @@ type Server struct {
 
 	FlagNetwork *cli.StringFlag
 	FlagAddress *cli.StringFlag
+
+	FlagReflection *cli.BoolFlag
 
 	FlagTLSCerts    *cli.StringSliceFlag
 	FlagTLSCertKeys *cli.StringSliceFlag
@@ -49,6 +52,7 @@ func NewServerName(prefix clix.FlagPrefix, name string, opt ...Option) *Server {
 	var (
 		nameFlagNetwork         = clix.NewFlagNameAlias(prefix, name, "network", "net")
 		nameFlagAddress         = clix.NewFlagNameAlias(prefix, name, "address", "addr")
+		nameFlagReflection      = clix.NewFlagNameAlias(prefix, name, "grpc-reflection", "reflection")
 		nameFlagTLSCerts        = clix.NewFlagNameAlias(prefix, name, "tls-cert", "tlscrt")
 		nameFlagTLSCertKeys     = clix.NewFlagNameAlias(prefix, name, "tls-cert-key", "tlskey")
 		nameFlagTLSGenCert      = clix.NewFlagNameAlias(prefix, name, "tls-gen-cert", "tlsgen")
@@ -85,6 +89,16 @@ func NewServerName(prefix clix.FlagPrefix, name string, opt ...Option) *Server {
 			Required:    len(cfg.Address) == 0,
 			Value:       cfg.Address,
 			Destination: new(string),
+		},
+
+		FlagReflection: &cli.BoolFlag{
+			Name:        nameFlagReflection.Name,
+			Aliases:     nameFlagReflection.Aliases,
+			Usage:       "enable reflection service",
+			EnvVars:     nameFlagReflection.EnvVars,
+			FilePath:    nameFlagReflection.FilePath,
+			Value:       cfg.Reflection,
+			Destination: new(bool),
 		},
 
 		FlagTLSCerts: &cli.StringSliceFlag{
@@ -161,6 +175,7 @@ func (f *Server) Flags() []cli.Flag {
 	return clix.Flags(
 		clix.FlagIf(!f.PredeterminedNetwork, f.FlagNetwork),
 		f.FlagAddress,
+		f.FlagReflection,
 		f.FlagTLSCerts,
 		f.FlagTLSCertKeys,
 		f.FlagTLSGenCert,
@@ -196,6 +211,10 @@ func (f *Server) Network() string {
 
 func (f *Server) Address() string {
 	return *f.FlagAddress.Destination
+}
+
+func (f *Server) Reflection() bool {
+	return *f.FlagReflection.Destination
 }
 
 func (f *Server) TLSCerts() []string {
@@ -326,7 +345,11 @@ func (f *Server) NewServer(opt ...grpc.ServerOption) (*grpc.Server, error) {
 	if err != nil {
 		return nil, err
 	}
-	return grpc.NewServer(opts...), nil
+	server := grpc.NewServer(opts...)
+	if f.Reflection() {
+		reflection.Register(server)
+	}
+	return server, nil
 }
 
 func (f *Server) Listen() (net.Listener, error) {

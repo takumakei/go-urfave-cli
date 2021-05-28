@@ -8,6 +8,7 @@ import (
 type Config struct {
 	Network       []string
 	Address       string
+	Reflection    bool
 	TLSMinVersion uint16
 	TLSMaxVersion uint16
 }

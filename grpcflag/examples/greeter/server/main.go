@@ -15,6 +15,7 @@ import (
 var flag = grpcflag.NewServer(
 	clix.FlagPrefix("GREETER_"),
 	grpcflag.Address("127.0.0.1:9900"),
+	grpcflag.Reflection(true),
 )
 
 func main() {
